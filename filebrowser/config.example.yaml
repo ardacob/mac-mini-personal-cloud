@@ -1,0 +1,23 @@
+server:
+  database: "/home/filebrowser/data/database.db"
+  cacheDir: "/home/filebrowser/tmp"
+  cacheDirCleanup: false
+  numImageProcessors: 1
+  sources:
+    - path: /srv
+      name: External SSD
+      config:
+        defaultEnabled: true
+        readOnly: false
+
+auth:
+  adminUsername: admin
+
+integrations:
+  media:
+    ffmpegPath: "ffmpeg"
+    convert:
+      imagePreview:
+        heic: true
+        jpeg: true
+    debug: false
