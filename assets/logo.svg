@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Mac mini Personal Cloud logo">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#38bdf8"/><stop offset="1" stop-color="#22c55e"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0f172a"/>
+  <rect x="92" y="238" width="210" height="132" rx="32" fill="#e2e8f0"/>
+  <rect x="110" y="256" width="174" height="82" rx="20" fill="#cbd5e1"/>
+  <circle cx="264" cy="352" r="7" fill="#22c55e"/>
+  <path d="M254 231c0-49 40-89 89-89 35 0 66 21 80 51 12-7 25-10 39-10 42 0 76 33 79 74 42 2 75 37 75 79 0 44-36 80-80 80H341c-61 0-110-49-110-110 0-28 9-53 23-75z" transform="translate(-34 -21) scale(.72)" fill="url(#g)"/>
+</svg>
