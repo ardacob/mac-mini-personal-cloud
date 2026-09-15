@@ -10,7 +10,7 @@
   <img alt="macOS" src="https://img.shields.io/badge/platform-macOS-111827?logo=apple&logoColor=white">
   <img alt="Docker" src="https://img.shields.io/badge/docker-compose-2563EB?logo=docker&logoColor=white">
   <img alt="iOS" src="https://img.shields.io/badge/client-iPhone%20%2F%20iPad-111827?logo=apple&logoColor=white">
-  <img alt="License" src="https://img.shields.io/github/license/sykenix/mac-mini-personal-cloud">
+  <img alt="License" src="https://img.shields.io/github/license/ardacob/mac-mini-personal-cloud">
   <img alt="Release" src="https://img.shields.io/badge/release-v1.0.0-16A34A">
 </p>
 
@@ -54,7 +54,7 @@ File Browser ve NAStool aynı fiziksel SSD’yi farklı container yollarından g
 ## Hızlı başlangıç
 
 ```bash
-git clone https://github.com/sykenix/mac-mini-personal-cloud.git
+git clone https://github.com/ardacob/mac-mini-personal-cloud.git
 cd mac-mini-personal-cloud
 cp .env.example .env
 cp filebrowser/config.example.yaml filebrowser/config.yaml
