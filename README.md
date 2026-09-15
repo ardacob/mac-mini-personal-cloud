@@ -1,66 +1,57 @@
+<p align="center">
+  <img src="assets/banner.svg" alt="Mac mini Personal Cloud" width="100%">
+</p>
+
+<p align="center">
+  <strong>Türkçe</strong> • <a href="README_EN.md">English</a>
+</p>
+
+<p align="center">
+  <img alt="macOS" src="https://img.shields.io/badge/platform-macOS-111827?logo=apple&logoColor=white">
+  <img alt="Docker" src="https://img.shields.io/badge/docker-compose-2563EB?logo=docker&logoColor=white">
+  <img alt="iOS" src="https://img.shields.io/badge/client-iPhone%20%2F%20iPad-111827?logo=apple&logoColor=white">
+  <img alt="License" src="https://img.shields.io/github/license/sykenix/mac-mini-personal-cloud">
+  <img alt="Release" src="https://img.shields.io/badge/release-v1.0.0-16A34A">
+</p>
+
 # Mac mini Personal Cloud
 
-Mac mini + harici M.2 SSD + Docker + File Browser + Tailscale + NAStool ile kişisel bulut ve medya depolama sistemi.
+Mac mini + harici NVMe SSD + Docker + File Browser + Tailscale + NAStool ile kişisel bulut ve medya depolama sistemi.
 
-Bu repo gerçek bir kurulum sırasında yaşanan sorunları, yanlış denemeleri, teşhis adımlarını ve çalışan çözümleri Türkçe olarak belgeler. Hedef; iPhone'dan ev dışındayken Mac mini'ye bağlı SSD'ye dosya yüklemek/indirmek, HEIC fotoğraflarını düzgün önizlemek ve aynı diski NAStool tarafında medya depolaması olarak kullanmaktır.
+Bu repo sadece “çalışan son ayarları” değil, gerçek kurulum sırasında yaşanan sorunları, yanlış denemeleri, teşhis adımlarını ve geri dönüş yöntemlerini de belgeler. Hedef; iPhone’dan ev dışındayken Mac mini’ye bağlı SSD’ye güvenli şekilde dosya yüklemek/indirmek, HEIC fotoğraflarını düzgün önizlemek ve aynı fiziksel diski NAStool tarafında medya depolaması olarak kullanmaktır.
 
-> Test ortamı: Apple Silicon Mac mini + harici 1 TB NVMe SSD. Donanım markası zorunlu değildir; disk adı ve yollar sizde farklı olabilir.
+> Test ortamı: Apple Silicon Mac mini + harici 1 TB NVMe SSD. Donanım markası zorunlu değildir; disk adı, yollar ve portlar sizde farklı olabilir.
+
+## Neler var?
+
+- iPhone/iPad’den hücresel internet üzerinden uzak dosya erişimi
+- File Browser ile yükleme, indirme, klasör oluşturma ve silme
+- Tailscale ile router portu açmadan özel ağ erişimi
+- Tek fiziksel SSD’yi File Browser ve NAStool ile ortak kullanma
+- macOS’ta NTFS read-only probleminin teşhisi ve APFS’e geçiş
+- iPhone HEIC dosyalarında siyah / yarım / siyah-beyaz preview sorununun çözümü
+- FFmpeg + macOS `sips` ile HEIC karşılaştırmalı test akışı
+- stale preview/cache teşhisi için HTTP `200` / `304` karşılaştırması
+- NAStool için daha güvenli DOM tabanlı Türkçe arayüz yaklaşımı
+- yedekleme, geri dönüş ve troubleshooting dokümantasyonu
 
 ## Mimari
 
-```text
-iPhone / iPad
-    │
-    │ Tailscale özel ağı
-    ▼
-Mac mini
-    ├── Docker Desktop
-    │   ├── File Browser :8080  ───► Harici SSD
-    │   └── NAStool      :3000  ───► Harici SSD
-    │
-    └── APFS SSD
-        ├── Cloud/
-        ├── Downloads/
-        └── Media/
-            ├── Filmler/
-            └── Diziler/
-```
+<p align="center">
+  <img src="assets/architecture.svg" alt="Mac mini Personal Cloud mimarisi" width="95%">
+</p>
 
-File Browser ve NAStool aynı fiziksel SSD'yi farklı container yollarından görür. Dosyalar iki kez kopyalanmaz.
+File Browser ve NAStool aynı fiziksel SSD’yi farklı container yollarından görür. Dosyalar iki kez kopyalanmaz.
 
-## Güvenlik
+## Görsel örnek
 
-- File Browser ve NAStool portlarını router üzerinden doğrudan genel internete açmayın.
-- Uzak erişim için bu rehber Tailscale kullanır.
-- `.env`, uygulama veritabanları, API anahtarları ve gerçek özel ağ adreslerini GitHub'a eklemeyin.
-- NAStool upstream projesi arşivlenmiştir; legacy yazılım olarak değerlendirin.
+<p align="center">
+  <img src="assets/filebrowser-preview.svg" alt="File Browser HEIC preview örneği" width="95%">
+</p>
 
-## 1. SSD'yi hazırlama
+> Bu görsel gerçek kişisel fotoğraflar yerine güvenli bir UI mock kullanır. Repo içinde özel fotoğraf, Tailscale IP’si, parola veya API anahtarı bulunmaz.
 
-Önce bağlı diskleri görün:
-
-```bash
-ls /Volumes
-```
-
-Diskin dosya sistemini ve yazılabilirliğini kontrol edin:
-
-```bash
-diskutil info "/Volumes/Crucial T500" | grep -E "File System|Type \(Bundle\)|Read-Only|Writable"
-```
-
-Gerçek kurulumda ilk disk NTFS idi ve macOS tarafından read-only mount edildi:
-
-```text
-File System Personality: NTFS
-Volume Read-Only: Yes
-```
-
-Bu durumda File Browser dosyaları okuyabilir ama silemez, klasör oluşturamaz veya upload yapamaz. Mac'e sürekli bağlı disk için APFS'e geçildi. Formatlama tüm verileri siler; önce yedek alın.
-
-Ayrıntı: [docs/01-storage-apfs.md](docs/01-storage-apfs.md)
-
-## 2. Repo hazırlığı
+## Hızlı başlangıç
 
 ```bash
 git clone https://github.com/sykenix/mac-mini-personal-cloud.git
@@ -86,18 +77,7 @@ Klasörleri oluşturun:
 ./scripts/create-storage-folders.sh "/Volumes/Crucial T500"
 ```
 
-Beklenen yapı:
-
-```text
-Crucial T500/
-├── Cloud/
-├── Downloads/
-└── Media/
-    ├── Filmler/
-    └── Diziler/
-```
-
-## 3. Docker servislerini başlatma
+Docker servislerini başlatın:
 
 ```bash
 docker compose up -d
@@ -114,13 +94,36 @@ Yerel adresler:
 - File Browser: `http://localhost:8080`
 - NAStool: `http://localhost:3000`
 
-İlk girişlerden sonra yönetici parolalarını değiştirin.
+İlk girişten sonra yönetici parolalarını mutlaka değiştirin.
 
-Docker Desktop ve bind mount ayrıntıları: [docs/02-docker-desktop.md](docs/02-docker-desktop.md)
+## 1. SSD’yi hazırlama
 
-## 4. File Browser ve HEIC desteği
+Önce bağlı diskleri görün:
 
-Bu rehber FFmpeg içeren `gtstef/filebrowser` image'ını kullanır. HEIC preview desteği `filebrowser/config.yaml` içinde açıkça etkinleştirilir:
+```bash
+ls /Volumes
+```
+
+Dosya sistemini ve yazılabilirliği kontrol edin:
+
+```bash
+diskutil info "/Volumes/Crucial T500" | grep -E "File System|Type \(Bundle\)|Read-Only|Writable"
+```
+
+Gerçek kurulumda ilk disk NTFS idi ve macOS tarafından read-only mount edildi:
+
+```text
+File System Personality: NTFS
+Volume Read-Only: Yes
+```
+
+Bu durumda File Browser okuyabilir ama klasör oluşturamaz, dosya silemez veya upload yapamaz. Mac’e sürekli bağlı disk için APFS’e geçildi. Formatlama tüm verileri siler; önce yedek alın.
+
+Ayrıntı: [docs/01-storage-apfs.md](docs/01-storage-apfs.md)
+
+## 2. File Browser ve HEIC desteği
+
+Bu rehber FFmpeg içeren `gtstef/filebrowser` image’ını kullanır. HEIC preview desteği `filebrowser/config.yaml` içinde açıkça etkinleştirilir:
 
 ```yaml
 integrations:
@@ -134,25 +137,27 @@ integrations:
 
 Ayrıntı: [docs/04-filebrowser.md](docs/04-filebrowser.md)
 
-## 5. iPhone'dan uzaktan erişim
+## 3. iPhone’dan uzaktan erişim
 
-Mac ve iPhone'a Tailscale kurup aynı tailnet'e bağlanın. Önce File Browser'ın yerel ağda çalıştığını doğrulayın. Daha sonra iPhone'da Wi‑Fi'yi kapatıp hücresel veri üzerinden Tailscale bağlantısını test edin.
+Mac ve iPhone’a Tailscale kurup aynı tailnet’e bağlanın. Önce File Browser’ın yerel ağda çalıştığını doğrulayın. Daha sonra iPhone’da Wi‑Fi’yi kapatıp hücresel veri üzerinden test edin.
 
-Router port-forward kullanmadan erişim yaklaşımı ve opsiyonel iOS Files/SMB notları: [docs/05-tailscale-ios.md](docs/05-tailscale-ios.md)
+Bu yaklaşımda File Browser portunu router’dan genel internete açmanız gerekmez.
 
-## 6. HEIC siyah / yarım / siyah-beyaz görünüyorsa
+Ayrıntı: [docs/05-tailscale-ios.md](docs/05-tailscale-ios.md)
 
-Kurulum sırasında bazı iPhone HEIC dosyaları bozuk preview üretiyordu. Teşhis sırası şöyleydi:
+## 4. HEIC siyah / yarım / siyah-beyaz görünüyorsa
 
-1. Aynı HEIC'i container içindeki FFmpeg ile manuel JPEG'e çevir.
-2. Aynı dosyayı macOS `sips` ile JPEG'e çevir.
-3. İki çıktı da düzgünse orijinal HEIC'in bozuk olmadığını doğrula.
-4. Aynı HEIC'i `_TEST` gibi yeni bir adla kopyala.
-5. File Browser loglarında eski preview isteği ile yeni preview isteğini karşılaştır.
-6. Eski istek `304`, yeni kopya `200` dönüyor ve yeni kopya düzgün görünüyorsa stale preview/cache ihtimali güçlenir.
-7. File Browser preview cache'ini temizle ve tarayıcıda hard refresh yap.
+Gerçek kurulumda bazı iPhone HEIC dosyaları bozuk preview üretiyordu. Sorunun dosyada mı yoksa cache’te mi olduğunu ayırmak için şu sıra kullanıldı:
 
-Manuel FFmpeg testi:
+1. Aynı HEIC’i container içindeki FFmpeg ile manuel JPEG’e çevir.
+2. Aynı dosyayı macOS `sips` ile JPEG’e çevir.
+3. İki çıktı da düzgünse orijinal HEIC’in bozuk olmadığını doğrula.
+4. Aynı HEIC’i `_TEST` gibi yeni bir adla kopyala.
+5. File Browser loglarında eski ve yeni preview isteklerini karşılaştır.
+6. Eski dosya `304`, yeni kopya `200` dönüyor ve yeni kopya düzgün görünüyorsa stale preview/cache ihtimali güçlenir.
+7. Preview cache’ini temizleyip browser’da hard refresh yap.
+
+FFmpeg testi:
 
 ```bash
 docker exec filebrowser ffmpeg -y \
@@ -175,7 +180,7 @@ Cache temizleme:
 ./scripts/clear-heic-cache.sh
 ```
 
-Belirli bir HEIC için yeniden preview üretimini tetikleme:
+Belirli bir HEIC için preview yenileme:
 
 ```bash
 ./scripts/refresh-heic-preview.sh "/Volumes/Crucial T500/Cloud/IMG_0030.HEIC"
@@ -183,9 +188,9 @@ Belirli bir HEIC için yeniden preview üretimini tetikleme:
 
 Tam teşhis akışı: [docs/06-heic-preview-fix.md](docs/06-heic-preview-fix.md)
 
-## 7. NAStool
+## 5. NAStool
 
-NAStool servisi aynı SSD'yi container içinde `/media` olarak görür. Örneğin:
+NAStool aynı SSD’yi container içinde `/media` olarak görür:
 
 ```text
 Host:    /Volumes/Crucial T500/Media/Filmler
@@ -194,9 +199,9 @@ NAStool: /media/Media/Filmler
 
 NAStool kurulumu ve legacy proje notları: [docs/03-nastool.md](docs/03-nastool.md)
 
-## 8. NAStool Türkçe arayüzü
+## 6. NAStool Türkçe arayüzü
 
-Kaynak dosyalarda geniş global string replacement yapmak riskli çıktı. Tek karakterli Çince eşleşmeler uygulama mantığındaki stringleri de etkileyebiliyor ve karışık metinler oluşturabiliyor.
+Kaynak dosyalarda geniş global string replacement yapmak riskli çıktı. Kısa Çince stringler uygulama mantığındaki metinleri de etkileyebildiği için karışık UI oluşabiliyor.
 
 Bu nedenle repoda görünür DOM metinlerini çeviren daha güvenli bir installer bulunuyor:
 
@@ -209,23 +214,32 @@ Ardından tarayıcıda hard refresh yapın.
 
 Ayrıntı: [docs/08-nastool-turkish-ui.md](docs/08-nastool-turkish-ui.md)
 
-## 9. Yedek ve geri dönüş
+## 7. Güvenlik
 
-Çalışan sistemi değiştirmeden önce snapshot/yedek alın. Özellikle compose, NAStool config, File Browser data ve patched NAStool web ağacı için geri dönüş noktası oluşturun.
+- File Browser ve NAStool portlarını router üzerinden doğrudan genel internete açmayın.
+- Uzak erişim için bu rehber Tailscale kullanır.
+- `.env`, uygulama veritabanları, API anahtarları, gerçek özel ağ adresleri ve parolaları GitHub’a eklemeyin.
+- NAStool upstream projesi arşivlenmiştir; legacy yazılım olarak değerlendirin.
+
+Bkz. [SECURITY.md](SECURITY.md).
+
+## 8. Yedek ve geri dönüş
+
+Çalışan sistemi değiştirmeden önce geri dönüş noktası oluşturun. Özellikle compose, NAStool config, File Browser data ve patched NAStool web ağacını yedekleyin.
 
 Ayrıntı: [docs/07-backup-restore.md](docs/07-backup-restore.md)
 
-## 10. Troubleshooting ve kurulum günlüğü
+## 9. Troubleshooting
 
-Yaşanan önemli sorunlar:
+Bu repo aşağıdaki gerçek sorunları da belgeler:
 
-- YAML'ın zsh komutu gibi yapıştırılması
-- NTFS diskin macOS'ta read-only mount edilmesi
+- YAML’ın zsh komutu gibi yapıştırılması
+- NTFS diskin macOS’ta read-only mount edilmesi
 - Docker bind mount izinleri
 - HEIC preview cache problemi
-- `docker logs -f` komutunun Terminal'i “donmuş” gibi göstermesi
-- NAStool global kaynak çevirisinin UI'yı bozması
-- Çalışan sistemi temizleme amacıyla yapılan fazla değişikliğin geri alınması
+- `docker logs -f` komutunun Terminal’i “donmuş” gibi göstermesi
+- NAStool global kaynak çevirisinin UI stringlerini bozması
+- çalışan sistemi temizleme amacıyla yapılan gereksiz değişikliğin geri alınması
 
 Bkz. [docs/09-troubleshooting.md](docs/09-troubleshooting.md) ve [docs/10-lessons-learned.md](docs/10-lessons-learned.md).
 
@@ -252,6 +266,27 @@ Stack kontrolü:
 ```bash
 ./scripts/verify-stack.sh
 ```
+
+## Dokümantasyon
+
+| Dosya | Konu |
+|---|---|
+| [01-storage-apfs.md](docs/01-storage-apfs.md) | SSD, NTFS ve APFS |
+| [02-docker-desktop.md](docs/02-docker-desktop.md) | Docker Desktop ve mount’lar |
+| [03-nastool.md](docs/03-nastool.md) | NAStool kurulumu |
+| [04-filebrowser.md](docs/04-filebrowser.md) | File Browser kurulumu |
+| [05-tailscale-ios.md](docs/05-tailscale-ios.md) | iPhone / Tailscale uzak erişim |
+| [06-heic-preview-fix.md](docs/06-heic-preview-fix.md) | HEIC preview teşhisi ve çözümü |
+| [07-backup-restore.md](docs/07-backup-restore.md) | Yedek ve geri dönüş |
+| [08-nastool-turkish-ui.md](docs/08-nastool-turkish-ui.md) | Türkçe NAStool arayüzü |
+| [09-troubleshooting.md](docs/09-troubleshooting.md) | Sorun giderme |
+| [10-lessons-learned.md](docs/10-lessons-learned.md) | Kurulumdan çıkarılan dersler |
+
+## Sürüm
+
+İlk kararlı yayın için notlar: [RELEASE_NOTES_v1.0.0.md](RELEASE_NOTES_v1.0.0.md)
+
+Değişiklik geçmişi: [CHANGELOG.md](CHANGELOG.md)
 
 ## Kaynaklar
 
