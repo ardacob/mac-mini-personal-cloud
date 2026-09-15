@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+
+# Local configuration
+.env
+config/
+filebrowser/config.yaml
+filebrowser/data/
+filebrowser/cache/
+web-tr/
+
+# Databases / logs
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
