@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.svg" alt="Mac mini Personal Cloud" width="100%">
+  <img src="https://raw.githubusercontent.com/ardacob/mac-mini-personal-cloud/main/assets/banner-v2.svg" alt="Mac mini Personal Cloud" width="100%">
 </p>
 
 <p align="center">
