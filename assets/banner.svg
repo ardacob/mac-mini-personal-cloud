@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="420" viewBox="0 0 1400 420" role="img" aria-label="Mac mini Personal Cloud banner">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#22c55e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1400" height="420" rx="28" fill="url(#bg)"/>
+  <circle cx="1120" cy="95" r="170" fill="#38bdf8" opacity="0.08"/>
+  <circle cx="1270" cy="320" r="210" fill="#22c55e" opacity="0.06"/>
+
+  <g transform="translate(90 92)">
+    <rect x="0" y="48" width="210" height="138" rx="28" fill="#e2e8f0"/>
+    <rect x="14" y="62" width="182" height="94" rx="18" fill="#cbd5e1"/>
+    <circle cx="165" cy="171" r="6" fill="#22c55e"/>
+    <path d="M260 138c0-36 29-65 65-65 26 0 49 15 59 37 9-5 19-7 30-7 31 0 56 24 58 55 31 1 56 27 56 58 0 32-26 58-58 58H324c-45 0-82-36-82-81 0-21 7-39 18-55z" fill="#f8fafc" opacity="0.95"/>
+    <path d="M310 194h148" stroke="url(#accent)" stroke-width="12" stroke-linecap="round"/>
+  </g>
+
+  <text x="610" y="145" fill="#f8fafc" font-size="56" font-family="Arial, Helvetica, sans-serif" font-weight="700">Mac mini Personal Cloud</text>
+  <text x="610" y="205" fill="#cbd5e1" font-size="28" font-family="Arial, Helvetica, sans-serif">Docker + File Browser + Tailscale + NAStool + external SSD</text>
+  <text x="610" y="260" fill="#94a3b8" font-size="23" font-family="Arial, Helvetica, sans-serif">iPhone remote access • HEIC preview fixes • APFS storage • real-world troubleshooting</text>
+
+  <g transform="translate(610 300)">
+    <rect width="130" height="42" rx="21" fill="#0ea5e9"/>
+    <text x="65" y="28" text-anchor="middle" fill="white" font-size="18" font-family="Arial, Helvetica, sans-serif" font-weight="700">macOS</text>
+    <rect x="145" width="130" height="42" rx="21" fill="#2563eb"/>
+    <text x="210" y="28" text-anchor="middle" fill="white" font-size="18" font-family="Arial, Helvetica, sans-serif" font-weight="700">Docker</text>
+    <rect x="290" width="130" height="42" rx="21" fill="#16a34a"/>
+    <text x="355" y="28" text-anchor="middle" fill="white" font-size="18" font-family="Arial, Helvetica, sans-serif" font-weight="700">iPhone</text>
+  </g>
+</svg>
