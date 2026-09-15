@@ -1,0 +1,9 @@
+services:
+  filebrowser:
+    image: gtstef/filebrowser:latest
+    container_name: filebrowser
+    ports:
+      - "8080:80"
+    volumes:
+      - "${SSD_PATH}:/srv"
+    restart: unless-stopped
