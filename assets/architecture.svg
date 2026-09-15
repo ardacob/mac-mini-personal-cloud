@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-label="Architecture diagram">
+  <rect width="1200" height="620" rx="24" fill="#0f172a"/>
+  <style>
+    .title{font:700 30px Arial,sans-serif;fill:#f8fafc}.txt{font:600 20px Arial,sans-serif;fill:#e2e8f0}.small{font:500 17px Arial,sans-serif;fill:#cbd5e1}.box{fill:#1e293b;stroke:#475569;stroke-width:2}.accent{stroke:#38bdf8;stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+  <text x="60" y="62" class="title">Architecture</text>
+
+  <rect x="70" y="120" width="220" height="110" rx="20" class="box"/>
+  <text x="180" y="165" text-anchor="middle" class="txt">iPhone / iPad</text>
+  <text x="180" y="198" text-anchor="middle" class="small">upload • download</text>
+
+  <rect x="380" y="120" width="220" height="110" rx="20" class="box"/>
+  <text x="490" y="165" text-anchor="middle" class="txt">Tailscale</text>
+  <text x="490" y="198" text-anchor="middle" class="small">private remote access</text>
+
+  <rect x="690" y="80" width="420" height="430" rx="24" class="box"/>
+  <text x="900" y="128" text-anchor="middle" class="title">Mac mini</text>
+
+  <rect x="735" y="170" width="330" height="92" rx="18" fill="#172554" stroke="#2563eb" stroke-width="2"/>
+  <text x="900" y="207" text-anchor="middle" class="txt">File Browser :8080</text>
+  <text x="900" y="237" text-anchor="middle" class="small">Cloud files + HEIC preview</text>
+
+  <rect x="735" y="285" width="330" height="92" rx="18" fill="#14532d" stroke="#22c55e" stroke-width="2"/>
+  <text x="900" y="322" text-anchor="middle" class="txt">NAStool :3000</text>
+  <text x="900" y="352" text-anchor="middle" class="small">media automation</text>
+
+  <rect x="735" y="400" width="330" height="78" rx="18" fill="#3f3f46" stroke="#a1a1aa" stroke-width="2"/>
+  <text x="900" y="433" text-anchor="middle" class="txt">External APFS SSD</text>
+  <text x="900" y="461" text-anchor="middle" class="small">Cloud • Downloads • Media</text>
+
+  <path d="M290 175 H380" class="accent"/>
+  <path d="M600 175 H690" class="accent"/>
+  <path d="M900 262 V285" class="accent"/>
+  <path d="M900 377 V400" class="accent"/>
+  <path d="M1065 216 H1130 V439 H1065" class="accent" opacity="0.7"/>
+
+  <text x="70" y="560" class="small">One physical SSD, shared by multiple containers through different mount paths. No duplicate copy is created.</text>
+</svg>
