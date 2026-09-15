@@ -1,9 +1,29 @@
 services:
+  nas-tools:
+    image: nastool/nas-tools:latest
+    container_name: nas-tools
+    hostname: nas-tools
+    ports:
+      - "${NASTOOL_PORT:-3000}:3000"
+    volumes:
+      - ./config:/config
+      - "${SSD_PATH}:/media"
+    environment:
+      NASTOOL_AUTO_UPDATE: "false"
+      NASTOOL_CN_UPDATE: "false"
+      TZ: "${TZ:-Europe/Istanbul}"
+    restart: unless-stopped
+
   filebrowser:
     image: gtstef/filebrowser:latest
     container_name: filebrowser
     ports:
-      - "8080:80"
+      - "${FILEBROWSER_PORT:-8080}:80"
     volumes:
       - "${SSD_PATH}:/srv"
+      - ./filebrowser/config.yaml:/home/filebrowser/config.yaml:ro
+      - ./filebrowser/data:/home/filebrowser/data
+    environment:
+      FILEBROWSER_CONFIG: /home/filebrowser/config.yaml
+      TZ: "${TZ:-Europe/Istanbul}"
     restart: unless-stopped
