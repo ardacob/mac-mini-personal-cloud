@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="2290" height="687" viewBox="0 0 2290 687" role="img" aria-labelledby="title desc">
-  <title id="title">Lunoud — Your Mac mini. Your cloud.</title>
-  <desc id="desc">Lunoud personal cloud for Mac mini with Docker, File Browser, Tailscale, NAStool and external SSD</desc>
+  <title id="title">Mac mini Personal Cloud</title>
+  <desc id="desc">Docker, File Browser, Tailscale, NAStool and external SSD personal cloud banner</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#0b1426"/>
@@ -48,9 +48,9 @@
   </g>
 
   <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif">
-    <text x="820" y="220" fill="#f8fafc" font-size="82" font-weight="800">Lunoud</text>
-    <text x="820" y="305" fill="#e3e8ef" font-size="38" font-weight="600">Your Mac mini. Your cloud.</text>
-    <text x="820" y="380" fill="#9fb0c6" font-size="29" font-weight="500">Personal cloud • private remote access • external SSD storage</text>
+    <text x="820" y="230" fill="#f8fafc" font-size="66" font-weight="800">Mac mini Personal Cloud</text>
+    <text x="820" y="315" fill="#e3e8ef" font-size="34" font-weight="500">Docker + File Browser + Tailscale + NAStool + external SSD</text>
+    <text x="820" y="390" fill="#9fb0c6" font-size="30" font-weight="500">iPhone remote access • HEIC preview fixes • APFS storage • real-world troubleshooting</text>
 
     <g transform="translate(820 440)">
       <rect x="0" y="0" width="190" height="68" rx="34" fill="url(#macBadge)"/>
